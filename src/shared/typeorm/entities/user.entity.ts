@@ -1,7 +1,7 @@
 import { Entity, Column, OneToMany } from 'typeorm';
 
 import { BaseOrmEntity } from '@shared/types';
-import { Reminder } from './reminders.entity';
+import { Reminder } from './reminder.entity';
 
 @Entity()
 export class User extends BaseOrmEntity {
