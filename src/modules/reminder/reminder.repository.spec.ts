@@ -4,9 +4,16 @@ import {
   authenticatedUserMockData,
   successDeleteMockData,
   entityIdMockData,
+  successUpdateMockData,
+  failedUpdateMockData,
 } from '@shared/__mocks__';
 
-import { reminderMockData, createReminderInputMockData } from './__mocks__';
+import {
+  reminderMockData,
+  createReminderInputMockData,
+  updare,
+  updateReminderInputMockData,
+} from './__mocks__';
 import { ReminderRepository } from './reminder.repository';
 
 describe('ReminderRepository', () => {
@@ -64,6 +71,42 @@ describe('ReminderRepository', () => {
       });
       expect(reminderRepository.save).toHaveBeenCalledWith(reminder);
       expect(reminder).toEqual(reminderMockData);
+    });
+  });
+
+  describe('updateOne', () => {
+    it('should return a user with updated values', async () => {
+      jest.spyOn(reminderRepository, 'update').mockResolvedValue(successUpdateMockData);
+      jest.spyOn(reminderRepository, 'findOne').mockResolvedValue(reminderMockData);
+
+      const reminder = await reminderRepository.updateOne(
+        entityIdMockData,
+        updateReminderInputMockData,
+      );
+
+      expect(reminderRepository.update).toHaveBeenCalledWith(
+        entityIdMockData,
+        updateReminderInputMockData,
+      );
+      expect(reminderRepository.findOne).toHaveBeenCalledWith(entityIdMockData);
+      expect(reminder).toEqual(reminderMockData);
+    });
+
+    it('should return null when the update fails', async () => {
+      jest.spyOn(reminderRepository, 'update').mockResolvedValue(failedUpdateMockData);
+      jest.spyOn(reminderRepository, 'findOne').mockImplementation();
+
+      const reminder = await reminderRepository.updateOne(
+        entityIdMockData,
+        updateReminderInputMockData,
+      );
+
+      expect(reminderRepository.update).toHaveBeenCalledWith(
+        entityIdMockData,
+        updateReminderInputMockData,
+      );
+      expect(reminderRepository.findOne).not.toHaveBeenCalled();
+      expect(reminder).toBe(null);
     });
   });
 
