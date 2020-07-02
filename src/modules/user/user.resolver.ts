@@ -19,4 +19,9 @@ export class UserResolver {
   getById(@Args('id') id: string): Promise<User | undefined> {
     return this.userService.findById(id);
   }
+
+  @Query(() => [UserType], { name: 'users' })
+  getAll(): Promise<User[]> {
+    return this.userService.findAll();
+  }
 }
