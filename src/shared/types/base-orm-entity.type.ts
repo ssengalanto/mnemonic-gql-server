@@ -8,8 +8,8 @@ import {
 
 @Entity()
 export class BaseOrmEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @CreateDateColumn()
   created_at: Date;
