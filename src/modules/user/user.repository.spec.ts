@@ -1,7 +1,13 @@
 import { ConflictException, InternalServerErrorException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { entityIdMockData, successUpdateMockData, failUpdateMockData } from '@shared/__mocks__';
+import {
+  entityIdMockData,
+  successUpdateMockData,
+  failUpdateMockData,
+  successDeleteMockData,
+  failDeleteMockData,
+} from '@shared/__mocks__';
 
 import { UserRepository } from './user.repository';
 import { userMockData, createUserInputMockData, updateUserInputMockData } from './__mocks__';
@@ -82,6 +88,29 @@ describe('UserRepository', () => {
 
       expect(userRepository.update).toHaveBeenCalledWith(entityIdMockData, updateUserInputMockData);
       expect(userRepository.findOne).not.toHaveBeenCalled();
+      expect(user).toEqual(undefined);
+    });
+  });
+
+  describe('deleteUser', () => {
+    it('should return the deleted user', async () => {
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(userMockData);
+      jest.spyOn(userRepository, 'delete').mockResolvedValue(successDeleteMockData);
+
+      const user = await userRepository.deleteUser(entityIdMockData);
+
+      expect(userRepository.findOne).toHaveBeenCalledWith(entityIdMockData);
+      expect(userRepository.update).toHaveBeenCalledWith(entityIdMockData);
+      expect(user).toEqual(userMockData);
+    });
+
+    it('should return undefined when delete fails', async () => {
+      jest.spyOn(userRepository, 'findOne').mockRejectedValue(undefined);
+
+      const user = await userRepository.deleteUser(entityIdMockData);
+
+      expect(userRepository.findOne).toHaveBeenCalledWith(entityIdMockData);
+      expect(userRepository.delete).not.toHaveBeenCalled();
       expect(user).toEqual(undefined);
     });
   });

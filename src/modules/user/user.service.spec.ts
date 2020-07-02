@@ -86,4 +86,24 @@ describe('UserService', () => {
       expect(user).toEqual(undefined);
     });
   });
+
+  describe('deleteUser', () => {
+    it('should return the deleted user', async () => {
+      jest.spyOn(userRepository, 'deleteUser').mockResolvedValue(userMockData);
+
+      const user = await userService.delete(entityIdMockData);
+
+      expect(userRepository.deleteUser).toHaveBeenCalledWith(entityIdMockData);
+      expect(user).toEqual(userMockData);
+    });
+
+    it('should return undefined when delete fails', async () => {
+      jest.spyOn(userRepository, 'deleteUser').mockResolvedValue(undefined);
+
+      const user = await userService.delete(entityIdMockData);
+
+      expect(userRepository.deleteUser).toHaveBeenCalledWith(entityIdMockData);
+      expect(user).toEqual(undefined);
+    });
+  });
 });
