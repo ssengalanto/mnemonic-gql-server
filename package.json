@@ -103,6 +103,9 @@
       "json",
       "ts"
     ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/.*__mocks__.*"
+    ],
     "rootDir": "src",
     "testRegex": ".spec.ts$",
     "transform": {
