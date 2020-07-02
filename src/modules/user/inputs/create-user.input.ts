@@ -19,7 +19,7 @@ export class CreateUserInput {
   @IsNotEmpty()
   last_name: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsBoolean()
   @IsOptional()
   active?: boolean;

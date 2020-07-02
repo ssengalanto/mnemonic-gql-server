@@ -4,7 +4,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 
 import { UserRepository } from '@modules/user/user.repository';
-import { CurrentUser } from '@shared/interfaces';
+import { AuthenticatedUser } from '@shared/interfaces';
 
 import { JwtPayload } from '../interfaces';
 
@@ -15,13 +15,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     protected readonly userRepository: UserRepository,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken,
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: configService.get<string>('JWT_SECRET'),
       ignoreExpiration: false,
     });
   }
 
-  async validate(payload: JwtPayload): Promise<CurrentUser> {
+  async validate(payload: JwtPayload): Promise<AuthenticatedUser> {
     const { sub } = payload;
     const user = await this.userRepository.findOne({ where: { id: sub, active: true } });
 

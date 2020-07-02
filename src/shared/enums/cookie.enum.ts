@@ -6,5 +6,5 @@ export enum Cookie {
 
 export const COOKIE_OPTIONS: CookieOptions = {
   httpOnly: true,
-  secure: true,
+  // secure: true,
 };

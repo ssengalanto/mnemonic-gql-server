@@ -4,13 +4,18 @@ import { User } from '@shared/typeorm/entities';
 
 import { UserType } from './types';
 import { UserService } from './user.service';
+import { AuthenticatedUser } from '@shared/interfaces';
+import { CurrentUser, GqlAuthGuard } from '@shared/decorators';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver()
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Query(() => String)
-  hello(): string {
+  @UseGuards(GqlAuthGuard)
+  hello(@CurrentUser() user: AuthenticatedUser): string {
+    console.log(user);
     return 'hi';
   }
 

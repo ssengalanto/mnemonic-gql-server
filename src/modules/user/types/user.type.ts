@@ -8,10 +8,10 @@ export class UserType extends BaseGqlType {
   email: string;
 
   @Field()
-  firstName: string;
+  first_name: string;
 
   @Field()
-  lastName: string;
+  last_name: string;
 
   @Field()
   active: boolean;
