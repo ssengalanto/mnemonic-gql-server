@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppContext } from '@shared/interfaces';
 import { TypeOrmFactory } from '@shared/typeorm';
+import { AuthModule } from '@modules/auth/auth.module';
 import { UserModule } from '@modules/user/user.module';
 import { validationSchema, validationOptions } from '@shared/config';
 
@@ -25,6 +26,7 @@ import { validationSchema, validationOptions } from '@shared/config';
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmFactory,
     }),
+    AuthModule,
     UserModule,
   ],
 })

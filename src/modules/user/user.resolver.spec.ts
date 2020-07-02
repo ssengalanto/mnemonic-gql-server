@@ -30,12 +30,12 @@ describe('UserResolver', () => {
     expect(userService).toBeDefined();
   });
 
-  describe('hello', () => {
-    it('should print hi', () => {
-      const greeting = userResolver.hello();
-      expect(greeting).toBe('hi');
-    });
-  });
+  // describe('hello', () => {
+  //   it('should print hi', () => {
+  //     const greeting = userResolver.hello();
+  //     expect(greeting).toBe('hi');
+  //   });
+  // });
 
   describe('getById', () => {
     it('should return a user with the correct id', async () => {
