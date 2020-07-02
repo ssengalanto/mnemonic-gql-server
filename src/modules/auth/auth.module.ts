@@ -4,11 +4,12 @@ import { PassportModule } from '@nestjs/passport';
 
 import { UserModule } from '@modules/user/user.module';
 
+import { GqlAuthGuard } from '@shared/decorators';
+
 import { JwtFactory, JwtStrategy } from './strategy';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
 import { CryptoService } from './crypto.service';
-import { GqlAuthGuard } from '@shared/decorators';
 
 @Module({
   imports: [

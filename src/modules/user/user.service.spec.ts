@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { entityIdMockData } from '@shared/__mocks__';
+import { entityIdMockData, entityIdsMockData } from '@shared/__mocks__';
 
 import { userMockData, usersMockData, updateUserInputMockData } from './__mocks__';
 import { UserService } from './user.service';
@@ -36,7 +36,7 @@ describe('UserService', () => {
 
       const user = await userService.findById(entityIdMockData);
 
-      expect(userRepository.findById).toHaveBeenLastCalledWith(entityIdMockData);
+      expect(userRepository.findById).toHaveBeenCalledWith(entityIdMockData);
       expect(user).toEqual(userMockData);
     });
 
@@ -45,8 +45,19 @@ describe('UserService', () => {
 
       const user = await userService.findById(entityIdMockData);
 
-      expect(userRepository.findById).toHaveBeenLastCalledWith(entityIdMockData);
+      expect(userRepository.findById).toHaveBeenCalledWith(entityIdMockData);
       expect(user).toBe(null);
+    });
+  });
+
+  describe('findByIds', () => {
+    it('should return users that match the provided ids', async () => {
+      jest.spyOn(userRepository, 'findByIds').mockResolvedValue(usersMockData);
+
+      const users = await userService.findByIds(entityIdsMockData);
+
+      expect(userRepository.findByIds).toHaveBeenCalledWith(entityIdsMockData);
+      expect(users).toEqual(usersMockData);
     });
   });
 

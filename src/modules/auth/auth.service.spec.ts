@@ -132,7 +132,7 @@ describe('AuthService', () => {
         where: { email: signinInputMockData.email },
       });
 
-      expect(cryptoService.verify).toHaveBeenLastCalledWith(
+      expect(cryptoService.verify).toHaveBeenCalledWith(
         signinInputMockData.password,
         userMockData.password,
       );
@@ -167,7 +167,7 @@ describe('AuthService', () => {
     expect(userRepository.findOne).toHaveBeenCalledWith({
       where: { email: signinInputMockData.email },
     });
-    expect(cryptoService.verify).toHaveBeenLastCalledWith(
+    expect(cryptoService.verify).toHaveBeenCalledWith(
       signinInputMockData.password,
       userMockData.password,
     );

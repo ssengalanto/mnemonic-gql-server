@@ -30,7 +30,7 @@ export class ReminderService {
     return reminder;
   }
 
-  async findReminderByUserId(id: string): Promise<Reminder[]> {
+  async findUserReminders(id: string): Promise<Reminder[]> {
     const reminders = await this.reminderRepository.find({ where: { userId: id } });
     return reminders;
   }

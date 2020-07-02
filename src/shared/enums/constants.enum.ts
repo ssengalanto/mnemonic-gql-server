@@ -1,3 +1,4 @@
 export enum Constant {
   SALT = 12,
+  DATA_LOADER_CONTEXT_KEY = 'DATA_LOADER_CONTEXT_KEY',
 }

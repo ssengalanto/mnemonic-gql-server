@@ -1,16 +1,22 @@
-import { Query, Args, Resolver } from '@nestjs/graphql';
+import { Query, Args, Resolver, ResolveField, Parent } from '@nestjs/graphql';
 
-import { User } from '@shared/typeorm/entities';
+import { User, Reminder } from '@shared/typeorm/entities';
+
+import { UseGuards } from '@nestjs/common';
+import { AuthenticatedUser } from '@shared/interfaces';
+import { ReminderType } from '@modules/reminder/types';
+import { CurrentUser, GqlAuthGuard } from '@shared/decorators';
 
 import { UserType } from './types';
 import { UserService } from './user.service';
-import { AuthenticatedUser } from '@shared/interfaces';
-import { CurrentUser, GqlAuthGuard } from '@shared/decorators';
-import { UseGuards } from '@nestjs/common';
+import { ReminderService } from '@modules/reminder/reminder.service';
 
-@Resolver()
+@Resolver(() => UserType)
 export class UserResolver {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly reminderService: ReminderService,
+  ) {}
 
   @Query(() => String)
   @UseGuards(GqlAuthGuard)
@@ -27,5 +33,10 @@ export class UserResolver {
   @Query(() => [UserType], { name: 'users' })
   getAll(): Promise<User[]> {
     return this.userService.findAll();
+  }
+
+  @ResolveField(() => [ReminderType], { name: 'reminders' })
+  getReminders(@Parent() user: User): Promise<Reminder[]> {
+    return this.reminderService.findUserReminders(user.id);
   }
 }
