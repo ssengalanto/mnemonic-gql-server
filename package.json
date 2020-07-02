@@ -20,6 +20,18 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-push": "CI=true npm test"
+    }
+  },
   "dependencies": {
     "@nestjs/common": "7.3.0",
     "@nestjs/core": "7.3.0",
@@ -29,6 +41,8 @@
     "rxjs": "^6.5.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^9.0.1",
+    "@commitlint/config-conventional": "^9.0.1",
     "@nestjs/cli": "^7.0.0",
     "@nestjs/schematics": "^7.0.0",
     "@nestjs/testing": "^7.0.0",
@@ -41,7 +55,9 @@
     "eslint": "7.1.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
+    "husky": "^4.2.5",
     "jest": "26.0.1",
+    "lint-staged": "^10.2.11",
     "prettier": "^1.19.1",
     "supertest": "^4.0.2",
     "ts-jest": "26.1.0",
@@ -62,6 +78,11 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "@app/(.*)": "<rootDir>/app/$1",
+      "@modules/(.*)": "<rootDir>/modules/$1",
+      "@shared/(.*)": "<rootDir>/shared/$1"
+    }
   }
 }
