@@ -11,7 +11,6 @@ import {
 import {
   reminderMockData,
   createReminderInputMockData,
-  updare,
   updateReminderInputMockData,
 } from './__mocks__';
 import { ReminderRepository } from './reminder.repository';
