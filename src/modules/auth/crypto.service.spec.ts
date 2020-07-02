@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import bcrypt from 'bcrypt';
 
-import { CryptoService } from './crypto.service';
 import { Constant } from '@shared/enums';
+
+import { CryptoService } from './crypto.service';
 
 jest.mock('bcrypt');
 
