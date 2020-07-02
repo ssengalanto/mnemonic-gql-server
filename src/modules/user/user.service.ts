@@ -20,7 +20,12 @@ export class UserService {
   }
 
   async update(id: string, payload: UpdateUserInput): Promise<User | undefined> {
-    const user = await this.userRepository.updateUser(id, payload);
+    const user = await this.userRepository.updateOne(id, payload);
+    return user;
+  }
+
+  async delete(id: string): Promise<User | undefined> {
+    const user = await this.userRepository.deleteOne(id);
     return user;
   }
 }

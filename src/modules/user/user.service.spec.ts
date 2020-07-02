@@ -63,11 +63,11 @@ describe('UserService', () => {
 
   describe('update', () => {
     it('should return a user with updated values', async () => {
-      jest.spyOn(userRepository, 'updateUser').mockResolvedValue(userMockData);
+      jest.spyOn(userRepository, 'updateOne').mockResolvedValue(userMockData);
 
       const user = await userService.update(entityIdMockData, updateUserInputMockData);
 
-      expect(userRepository.updateUser).toHaveBeenCalledWith(
+      expect(userRepository.updateOne).toHaveBeenCalledWith(
         entityIdMockData,
         updateUserInputMockData,
       );
@@ -75,11 +75,11 @@ describe('UserService', () => {
     });
 
     it('should return undefined when the update fails', async () => {
-      jest.spyOn(userRepository, 'updateUser').mockResolvedValue(undefined);
+      jest.spyOn(userRepository, 'updateOne').mockResolvedValue(undefined);
 
       const user = await userService.update(entityIdMockData, updateUserInputMockData);
 
-      expect(userRepository.updateUser).toHaveBeenCalledWith(
+      expect(userRepository.updateOne).toHaveBeenCalledWith(
         entityIdMockData,
         updateUserInputMockData,
       );
@@ -87,22 +87,22 @@ describe('UserService', () => {
     });
   });
 
-  describe('deleteUser', () => {
+  describe('deleteOne', () => {
     it('should return the deleted user', async () => {
-      jest.spyOn(userRepository, 'deleteUser').mockResolvedValue(userMockData);
+      jest.spyOn(userRepository, 'deleteOne').mockResolvedValue(userMockData);
 
       const user = await userService.delete(entityIdMockData);
 
-      expect(userRepository.deleteUser).toHaveBeenCalledWith(entityIdMockData);
+      expect(userRepository.deleteOne).toHaveBeenCalledWith(entityIdMockData);
       expect(user).toEqual(userMockData);
     });
 
     it('should return undefined when delete fails', async () => {
-      jest.spyOn(userRepository, 'deleteUser').mockResolvedValue(undefined);
+      jest.spyOn(userRepository, 'deleteOne').mockResolvedValue(undefined);
 
       const user = await userService.delete(entityIdMockData);
 
-      expect(userRepository.deleteUser).toHaveBeenCalledWith(entityIdMockData);
+      expect(userRepository.deleteOne).toHaveBeenCalledWith(entityIdMockData);
       expect(user).toEqual(undefined);
     });
   });
