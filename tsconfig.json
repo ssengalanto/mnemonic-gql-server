@@ -24,6 +24,7 @@
       "@app/*": ["app/*"],
       "@modules/*": ["modules/*"],
       "@shared/*": ["shared/*"]
-    }
+    },
+    "exclude": ["**/__mocks__/*"]
   }
 }
