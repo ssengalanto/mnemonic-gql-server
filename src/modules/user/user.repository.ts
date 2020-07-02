@@ -3,7 +3,7 @@ import { EntityRepository, Repository } from 'typeorm';
 
 import { User } from '@shared/typeorm/entities';
 
-import { CreateUserInput } from './inputs';
+import { CreateUserInput, UpdateUserInput } from './inputs';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -19,5 +19,17 @@ export class UserRepository extends Repository<User> {
       }
       throw new InternalServerErrorException();
     }
+  }
+
+  async updateUser(id: string, payload: UpdateUserInput): Promise<User | undefined> {
+    const result = await this.update(id, payload);
+
+    if (result.affected === 0) {
+      return undefined;
+    }
+
+    const user = await this.findOne(id);
+
+    return user;
   }
 }

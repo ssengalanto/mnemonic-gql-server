@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from '@shared/typeorm/entities';
 
 import { UserRepository } from './user.repository';
+import { UpdateUserInput } from './inputs';
 
 @Injectable()
 export class UserService {
@@ -16,5 +17,10 @@ export class UserService {
   async findAll(): Promise<User[]> {
     const users = await this.userRepository.find();
     return users;
+  }
+
+  async update(id: string, payload: UpdateUserInput): Promise<User | undefined> {
+    const user = await this.userRepository.updateUser(id, payload);
+    return user;
   }
 }

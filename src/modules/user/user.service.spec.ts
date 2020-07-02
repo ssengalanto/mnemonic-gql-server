@@ -63,7 +63,7 @@ describe('UserService', () => {
 
   describe('update', () => {
     it('should return a user with updated values', async () => {
-      jest.spyOn(userRepository, 'updateUser').mockImplementation();
+      jest.spyOn(userRepository, 'updateUser').mockResolvedValue(userMockData);
 
       const user = await userService.update(entityIdMockData, updateUserInputMockData);
 
@@ -71,7 +71,7 @@ describe('UserService', () => {
         entityIdMockData,
         updateUserInputMockData,
       );
-      expect(user.email).toEqual(updateUserInputMockData.email);
+      expect(user).toEqual(userMockData);
     });
 
     it('should return undefined when the update fails', async () => {
