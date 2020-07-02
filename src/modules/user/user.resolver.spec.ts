@@ -30,13 +30,6 @@ describe('UserResolver', () => {
     expect(userService).toBeDefined();
   });
 
-  // describe('hello', () => {
-  //   it('should print hi', () => {
-  //     const greeting = userResolver.hello();
-  //     expect(greeting).toBe('hi');
-  //   });
-  // });
-
   describe('getById', () => {
     it('should return a user with the correct id', async () => {
       jest.spyOn(userService, 'findById').mockResolvedValue(userMockData);
@@ -47,13 +40,13 @@ describe('UserResolver', () => {
       expect(user).toEqual(userMockData);
     });
 
-    it('should return undefined when user does not exists', async () => {
-      jest.spyOn(userService, 'findById').mockResolvedValue(undefined);
+    it('should return null when user does not exists', async () => {
+      jest.spyOn(userService, 'findById').mockResolvedValue(null);
 
       const user = await userResolver.getById(entityIdMockData);
 
       expect(userService.findById).toHaveBeenCalledWith(entityIdMockData);
-      expect(user).toEqual(undefined);
+      expect(user).toBe(null);
     });
   });
 

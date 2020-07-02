@@ -18,15 +18,30 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Reminder {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+  name: String!
+  completed: Boolean!
+  date: DateTime!
+  userId: Int!
+}
+
 type Query {
   hello: String!
   user(id: String!): User
   users: [User!]!
+  reminders: [Reminder!]!
+  reminder(id: String!): Reminder
 }
 
 type Mutation {
   signup(payload: CreateUserInput!): User!
   signin(payload: SigninUserInput!): String!
+  deleteReminder(id: String!): Reminder
+  createReminder(payload: CreateReminderInput!): Reminder!
 }
 
 input CreateUserInput {
@@ -40,4 +55,10 @@ input CreateUserInput {
 input SigninUserInput {
   email: String!
   password: String!
+}
+
+input CreateReminderInput {
+  name: String!
+  completed: Boolean
+  date: DateTime!
 }

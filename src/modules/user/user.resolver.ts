@@ -20,7 +20,7 @@ export class UserResolver {
   }
 
   @Query(() => UserType, { name: 'user', nullable: true })
-  getById(@Args('id') id: string): Promise<User | undefined> {
+  getById(@Args('id') id: string): Promise<User | null> {
     return this.userService.findById(id);
   }
 

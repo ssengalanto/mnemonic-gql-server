@@ -9,8 +9,8 @@ import { UpdateUserInput } from './inputs';
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async findById(id: string): Promise<User | undefined> {
-    const user = await this.userRepository.findOne(id);
+  async findById(id: string): Promise<User | null> {
+    const user = await this.userRepository.findById(id);
     return user;
   }
 
@@ -19,12 +19,12 @@ export class UserService {
     return users;
   }
 
-  async update(id: string, payload: UpdateUserInput): Promise<User | undefined> {
+  async update(id: string, payload: UpdateUserInput): Promise<User | null> {
     const user = await this.userRepository.updateOne(id, payload);
     return user;
   }
 
-  async delete(id: string): Promise<User | undefined> {
+  async delete(id: string): Promise<User | null> {
     const user = await this.userRepository.deleteOne(id);
     return user;
   }

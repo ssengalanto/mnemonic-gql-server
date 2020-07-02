@@ -1,6 +1,7 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 
 import { BaseOrmEntity } from '@shared/types';
+import { Reminder } from './reminder.entity';
 
 @Entity()
 export class User extends BaseOrmEntity {
@@ -18,4 +19,10 @@ export class User extends BaseOrmEntity {
 
   @Column({ type: 'boolean', default: true })
   active: boolean;
+
+  @OneToMany(
+    () => Reminder,
+    (reminder) => reminder.user,
+  )
+  reminders?: Reminder[];
 }
