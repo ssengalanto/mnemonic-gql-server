@@ -2,7 +2,7 @@ import faker from 'faker';
 
 import { AuthenticatedUser } from '@shared/interfaces';
 
-export const autheranticatedMockUserData: AuthenticatedUser = {
+export const authenticatedUserMockData: AuthenticatedUser = {
   id: faker.random.uuid(),
   email: faker.internet.email(),
   first_name: faker.name.firstName(),

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { autheranticatedMockUserData } from '@shared/__mocks__';
+import { authenticatedUserMockData } from '@shared/__mocks__';
 
 import { reminderMockData, createReminderInputMockData } from './__mocks__';
 import { ReminderRepository } from './reminder.repository';
@@ -31,12 +31,12 @@ describe('ReminderRepository', () => {
 
       const reminder = await reminderRepository.createOne(
         createReminderInputMockData,
-        autheranticatedMockUserData,
+        authenticatedUserMockData,
       );
 
       expect(reminderRepository.create).toHaveBeenCalledWith({
         ...createReminderInputMockData,
-        user: autheranticatedMockUserData,
+        user: authenticatedUserMockData,
       });
       expect(reminderRepository.save).toHaveBeenCalledWith(reminder);
       expect(reminder).toEqual(reminderMockData);
