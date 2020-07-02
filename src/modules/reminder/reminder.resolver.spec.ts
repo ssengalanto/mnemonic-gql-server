@@ -52,7 +52,7 @@ describe('ReminderResolver', () => {
     it('it should delete a reminder', async () => {
       jest.spyOn(reminderService, 'delete').mockResolvedValue(reminderMockData);
       const reminder = await reminderResolver.delete(entityIdMockData, authenticatedUserMockData);
-      expect(reminderService.delete).toHaveBeenLastCalledWith(
+      expect(reminderService.delete).toHaveBeenCalledWith(
         entityIdMockData,
         authenticatedUserMockData.id,
       );

@@ -11,6 +11,7 @@ type User {
   first_name: String!
   last_name: String!
   active: Boolean!
+  reminders: [Reminder!]!
 }
 
 """
@@ -27,21 +28,28 @@ type Reminder {
   completed: Boolean!
   date: DateTime!
   userId: Int!
+  user: User!
 }
 
 type Query {
+  reminders: [Reminder!]!
+  reminder(id: String!): Reminder
   hello: String!
   user(id: String!): User
   users: [User!]!
-  reminders: [Reminder!]!
-  reminder(id: String!): Reminder
 }
 
 type Mutation {
-  signup(payload: CreateUserInput!): User!
-  signin(payload: SigninUserInput!): String!
   deleteReminder(id: String!): Reminder
   createReminder(payload: CreateReminderInput!): Reminder!
+  signup(payload: CreateUserInput!): User!
+  signin(payload: SigninUserInput!): String!
+}
+
+input CreateReminderInput {
+  name: String!
+  completed: Boolean
+  date: DateTime!
 }
 
 input CreateUserInput {
@@ -55,10 +63,4 @@ input CreateUserInput {
 input SigninUserInput {
   email: String!
   password: String!
-}
-
-input CreateReminderInput {
-  name: String!
-  completed: Boolean
-  date: DateTime!
 }
