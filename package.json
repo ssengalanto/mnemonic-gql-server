@@ -25,8 +25,8 @@
   },
   "lint-staged": {
     "*.ts": [
-      "yarn lint",
-      "yarn format"
+      "eslint --fix",
+      "prettier --write"
     ]
   },
   "husky": {

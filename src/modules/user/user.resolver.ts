@@ -15,7 +15,7 @@ export class UserResolver {
     return 'hi';
   }
 
-  @Query(() => UserType, { nullable: true })
+  @Query(() => UserType, { name: 'user', nullable: true })
   getById(@Args('id') id: string): Promise<User | undefined> {
     return this.userService.findById(id);
   }

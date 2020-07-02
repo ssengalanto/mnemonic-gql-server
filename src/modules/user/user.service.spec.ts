@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { entityIdMockData } from '@shared/__mocks__';
 
-import { userMockData } from './__mocks__';
+import { userMockData, usersMockData } from './__mocks__';
 import { UserService } from './user.service';
 import { UserRepository } from './user.repository';
 
@@ -30,8 +30,8 @@ describe('UserService', () => {
     expect(userRepository).toBeDefined();
   });
 
-  describe('getById', () => {
-    it('should find a user by id', async () => {
+  describe('findById', () => {
+    it('should return a user with correct id', async () => {
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(userMockData);
 
       const user = await userService.findById(entityIdMockData);
@@ -47,6 +47,17 @@ describe('UserService', () => {
 
       expect(userRepository.findOne).toHaveBeenLastCalledWith(entityIdMockData);
       expect(user).toEqual(undefined);
+    });
+  });
+
+  describe('findAll', () => {
+    it('should return all users', async () => {
+      jest.spyOn(userRepository, 'find').mockResolvedValue(usersMockData);
+
+      const users = await userService.findAll();
+
+      expect(userRepository.find).toHaveBeenCalled();
+      expect(users).toEqual(usersMockData);
     });
   });
 });

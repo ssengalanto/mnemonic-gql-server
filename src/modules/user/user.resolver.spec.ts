@@ -4,7 +4,7 @@ import { entityIdMockData } from '@shared/__mocks__';
 
 import { UserResolver } from './user.resolver';
 import { UserService } from './user.service';
-import { userMockData } from './__mocks__';
+import { userMockData, usersMockData } from './__mocks__';
 
 jest.mock('./user.service.ts');
 
@@ -38,12 +38,12 @@ describe('UserResolver', () => {
   });
 
   describe('getById', () => {
-    it('should find a user by id', async () => {
+    it('should return a user with the correct id', async () => {
       jest.spyOn(userService, 'findById').mockResolvedValue(userMockData);
 
       const user = await userResolver.getById(entityIdMockData);
 
-      expect(userService.findById).toHaveBeenLastCalledWith(entityIdMockData);
+      expect(userService.findById).toHaveBeenCalledWith(entityIdMockData);
       expect(user).toEqual(userMockData);
     });
 
@@ -52,8 +52,19 @@ describe('UserResolver', () => {
 
       const user = await userResolver.getById(entityIdMockData);
 
-      expect(userService.findById).toHaveBeenLastCalledWith(entityIdMockData);
+      expect(userService.findById).toHaveBeenCalledWith(entityIdMockData);
       expect(user).toEqual(undefined);
+    });
+  });
+
+  describe('getAll', () => {
+    it('should return all users', async () => {
+      jest.spyOn(userService, 'findAll').mockResolvedValue(usersMockData);
+
+      const users = await userResolver.getAll();
+
+      expect(userService.findAll).toHaveBeenCalled();
+      expect(users).toEqual(usersMockData);
     });
   });
 });
