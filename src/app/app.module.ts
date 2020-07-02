@@ -10,6 +10,7 @@ import { TypeOrmFactory } from '@shared/typeorm';
 import { AuthModule } from '@modules/auth/auth.module';
 import { UserModule } from '@modules/user/user.module';
 import { validationSchema, validationOptions } from '@shared/config';
+import { ReminderModule } from '@modules/reminder/reminder.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { validationSchema, validationOptions } from '@shared/config';
     }),
     AuthModule,
     UserModule,
+    ReminderModule,
   ],
 })
 export class AppModule {}
