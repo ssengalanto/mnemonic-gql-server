@@ -1,0 +1,15 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "postgres",
+  "database": "gql-reminders",
+  "entities": ["src/shared/typeorm/entities/*.entity{.ts,.js}"],
+  "synchronize": false,
+  "migrationsTableName": "migration",
+  "migrations": ["./migration/*.ts"],
+  "cli": {
+    "migrationsDir": "./migration"
+  }
+}

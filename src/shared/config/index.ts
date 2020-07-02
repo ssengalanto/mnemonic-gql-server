@@ -1,2 +1,2 @@
-export * from './validation-options';
-export * from './validation-schema';
+export * from './validation-options.config';
+export * from './validation-schema.config';
