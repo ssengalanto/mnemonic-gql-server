@@ -1,8 +1,10 @@
 import { ConflictException, InternalServerErrorException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { entityIdMockData } from '@shared/__mocks__';
+
 import { UserRepository } from './user.repository';
-import { userMockData, createUserInputMockData } from './__mocks__';
+import { userMockData, createUserInputMockData, updateUserInputMockData } from './__mocks__';
 
 describe('UserRepository', () => {
   let userRepository: UserRepository;
@@ -57,6 +59,34 @@ describe('UserRepository', () => {
         expect(e).toBeInstanceOf(InternalServerErrorException);
         expect(userRepository.create).toHaveBeenCalledWith(createUserInputMockData);
       }
+    });
+  });
+
+  describe('updateUser', () => {
+    it('should return a user with updated values', async () => {
+      jest
+        .spyOn(userRepository, 'update')
+        .mockResolvedValue({ affected: 1, raw: 'any', generatedMaps: [{ any: 'any' }] });
+      jest.spyOn(userRepository, 'findOne').mockImplementation();
+
+      const user = await userRepository.updateUser(entityIdMockData, updateUserInputMockData);
+
+      expect(userRepository.update).toHaveBeenCalledWith(entityIdMockData, updateUserInputMockData);
+      expect(userRepository.findOne).toHaveBeenCalledWith(entityIdMockData);
+      expect(user.email).toEqual(updateUserInputMockData.email);
+    });
+
+    it('should return undefined when the update fails', async () => {
+      jest
+        .spyOn(userRepository, 'update')
+        .mockResolvedValue({ affected: 0, raw: 'any', generatedMaps: [{ any: 'any' }] });
+      jest.spyOn(userRepository, 'findOne').mockImplementation();
+
+      const user = await userRepository.updateUser(entityIdMockData, updateUserInputMockData);
+
+      expect(userRepository.update).toHaveBeenCalledWith(entityIdMockData, updateUserInputMockData);
+      expect(userRepository.findOne).not.toHaveBeenCalled();
+      expect(user.email).toEqual(updateUserInputMockData.email);
     });
   });
 });

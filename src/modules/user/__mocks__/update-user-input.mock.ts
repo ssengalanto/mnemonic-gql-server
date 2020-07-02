@@ -1,8 +1,8 @@
 import faker from 'faker';
 
-import { CreateUserInput } from '../inputs';
+import { UpdateUserInput } from '../inputs';
 
-export const createUserInputMockData: CreateUserInput = {
+export const updateUserInputMockData: UpdateUserInput = {
   email: faker.internet.email(),
   password: faker.internet.password(),
   firstName: faker.name.firstName(),

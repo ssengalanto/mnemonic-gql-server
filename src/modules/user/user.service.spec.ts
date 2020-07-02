@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { entityIdMockData } from '@shared/__mocks__';
 
-import { userMockData, usersMockData } from './__mocks__';
+import { userMockData, usersMockData, updateUserInputMockData } from './__mocks__';
 import { UserService } from './user.service';
 import { UserRepository } from './user.repository';
 
@@ -58,6 +58,32 @@ describe('UserService', () => {
 
       expect(userRepository.find).toHaveBeenCalled();
       expect(users).toEqual(usersMockData);
+    });
+  });
+
+  describe('update', () => {
+    it('should return a user with updated values', async () => {
+      jest.spyOn(userRepository, 'updateUser').mockImplementation();
+
+      const user = await userService.update(entityIdMockData, updateUserInputMockData);
+
+      expect(userRepository.updateUser).toHaveBeenCalledWith(
+        entityIdMockData,
+        updateUserInputMockData,
+      );
+      expect(user.email).toEqual(updateUserInputMockData.email);
+    });
+
+    it('should return undefined when the update fails', async () => {
+      jest.spyOn(userRepository, 'updateUser').mockResolvedValue(undefined);
+
+      const user = await userService.update(entityIdMockData, updateUserInputMockData);
+
+      expect(userRepository.updateUser).toHaveBeenCalledWith(
+        entityIdMockData,
+        updateUserInputMockData,
+      );
+      expect(user).toEqual(undefined);
     });
   });
 });
