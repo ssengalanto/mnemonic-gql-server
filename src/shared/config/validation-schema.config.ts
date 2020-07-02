@@ -9,5 +9,6 @@ export const validationSchema = Joi.object({
   DB_PASSWORD: Joi.string(),
 
   JWT_SECRET: Joi.string(),
-  JWT_EXPIRES_IN: Joi.number(),
+  ACCESS_JWT_EXPIRES_IN: Joi.number(),
+  REFRESH_JWT_EXPIRES_IN: Joi.number(),
 });
