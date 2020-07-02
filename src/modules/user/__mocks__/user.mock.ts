@@ -16,4 +16,4 @@ const createMockUser = (): User => ({
 
 export const userMockData: User = createMockUser();
 
-export const usersMockData: User[] = Array(3).fill(createMockUser());
+export const usersMockData: User[] = Array.from({ length: 3 }, () => createMockUser());

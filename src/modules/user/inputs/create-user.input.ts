@@ -13,11 +13,11 @@ export class CreateUserInput {
 
   @Field()
   @IsNotEmpty()
-  firstName: string;
+  first_name: string;
 
   @Field()
   @IsNotEmpty()
-  lastName: string;
+  last_name: string;
 
   @Field()
   @IsBoolean()
