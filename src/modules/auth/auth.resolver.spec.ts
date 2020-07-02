@@ -9,7 +9,7 @@ import { signinInputMockData, jwtMockToken } from './__mocks__';
 
 jest.mock('./auth.service.ts');
 
-describe('UserResolver', () => {
+describe('AuthResolver', () => {
   let authResolver: AuthResolver;
   let authService: AuthService;
 

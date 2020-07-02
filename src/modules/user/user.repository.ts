@@ -7,6 +7,13 @@ import { CreateUserInput, UpdateUserInput } from './inputs';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
+  async findById(id: string): Promise<User | null> {
+    const user = await this.findOne(id);
+
+    if (!user) return null;
+    return user;
+  }
+
   async createOne(payload: CreateUserInput): Promise<User> {
     try {
       const user = this.create(payload);
@@ -21,25 +28,23 @@ export class UserRepository extends Repository<User> {
     }
   }
 
-  async updateOne(id: string, payload: UpdateUserInput): Promise<User | undefined> {
+  async updateOne(id: string, payload: UpdateUserInput): Promise<User | null> {
     const result = await this.update(id, payload);
 
     if (result.affected === 0) {
-      return undefined;
+      return null;
     }
 
-    const user = await this.findOne(id);
-
+    const user = await this.findById(id);
     return user;
   }
 
-  async deleteOne(id: string): Promise<User | undefined> {
+  async deleteOne(id: string): Promise<User | null> {
     const user = await this.findOne(id);
 
-    if (!user) return undefined;
+    if (!user) return null;
 
     await this.delete(id);
-
     return user;
   }
 }

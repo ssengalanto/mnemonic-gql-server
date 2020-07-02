@@ -32,21 +32,21 @@ describe('UserService', () => {
 
   describe('findById', () => {
     it('should return a user with correct id', async () => {
-      jest.spyOn(userRepository, 'findOne').mockResolvedValue(userMockData);
+      jest.spyOn(userRepository, 'findById').mockResolvedValue(userMockData);
 
       const user = await userService.findById(entityIdMockData);
 
-      expect(userRepository.findOne).toHaveBeenLastCalledWith(entityIdMockData);
+      expect(userRepository.findById).toHaveBeenLastCalledWith(entityIdMockData);
       expect(user).toEqual(userMockData);
     });
 
-    it('should return undefined when user does not exists', async () => {
-      jest.spyOn(userRepository, 'findOne').mockResolvedValue(undefined);
+    it('should return null when user does not exists', async () => {
+      jest.spyOn(userRepository, 'findById').mockResolvedValue(null);
 
       const user = await userService.findById(entityIdMockData);
 
-      expect(userRepository.findOne).toHaveBeenLastCalledWith(entityIdMockData);
-      expect(user).toEqual(undefined);
+      expect(userRepository.findById).toHaveBeenLastCalledWith(entityIdMockData);
+      expect(user).toBe(null);
     });
   });
 
@@ -74,8 +74,8 @@ describe('UserService', () => {
       expect(user).toEqual(userMockData);
     });
 
-    it('should return undefined when the update fails', async () => {
-      jest.spyOn(userRepository, 'updateOne').mockResolvedValue(undefined);
+    it('should return null when the update fails', async () => {
+      jest.spyOn(userRepository, 'updateOne').mockResolvedValue(null);
 
       const user = await userService.update(entityIdMockData, updateUserInputMockData);
 
@@ -83,7 +83,7 @@ describe('UserService', () => {
         entityIdMockData,
         updateUserInputMockData,
       );
-      expect(user).toEqual(undefined);
+      expect(user).toBe(null);
     });
   });
 
@@ -97,13 +97,13 @@ describe('UserService', () => {
       expect(user).toEqual(userMockData);
     });
 
-    it('should return undefined when delete fails', async () => {
-      jest.spyOn(userRepository, 'deleteOne').mockResolvedValue(undefined);
+    it('should return null when delete fails', async () => {
+      jest.spyOn(userRepository, 'deleteOne').mockResolvedValue(null);
 
       const user = await userService.delete(entityIdMockData);
 
       expect(userRepository.deleteOne).toHaveBeenCalledWith(entityIdMockData);
-      expect(user).toEqual(undefined);
+      expect(user).toBe(null);
     });
   });
 });

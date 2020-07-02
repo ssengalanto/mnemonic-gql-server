@@ -30,6 +30,26 @@ describe('UserRepository', () => {
     expect(userRepository).toBeDefined();
   });
 
+  describe('findById', () => {
+    it('should find user by id', async () => {
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(userMockData);
+
+      const user = await userRepository.findById(entityIdMockData);
+
+      expect(userRepository.findOne).toHaveBeenCalledWith(entityIdMockData);
+      expect(user).toEqual(userMockData);
+    });
+
+    it('should return null when user does not exists', async () => {
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(undefined);
+
+      const user = await userRepository.findById(entityIdMockData);
+
+      expect(userRepository.findOne).toHaveBeenCalledWith(entityIdMockData);
+      expect(user).toBe(null);
+    });
+  });
+
   describe('createOne', () => {
     it('should create a new user entity', async () => {
       jest.spyOn(userRepository, 'create').mockReturnValue(userMockData);
@@ -79,7 +99,7 @@ describe('UserRepository', () => {
       expect(user).toEqual(userMockData);
     });
 
-    it('should return undefined when the update fails', async () => {
+    it('should return null when the update fails', async () => {
       jest.spyOn(userRepository, 'update').mockResolvedValue(failedUpdateMockData);
       jest.spyOn(userRepository, 'findOne').mockImplementation();
 
@@ -87,7 +107,7 @@ describe('UserRepository', () => {
 
       expect(userRepository.update).toHaveBeenCalledWith(entityIdMockData, updateUserInputMockData);
       expect(userRepository.findOne).not.toHaveBeenCalled();
-      expect(user).toEqual(undefined);
+      expect(user).toBe(null);
     });
   });
 
@@ -103,7 +123,7 @@ describe('UserRepository', () => {
       expect(user).toEqual(userMockData);
     });
 
-    it('should return undefined when delete fails', async () => {
+    it('should return null when delete fails', async () => {
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(undefined);
       jest.spyOn(userRepository, 'delete').mockImplementation();
 
@@ -111,7 +131,7 @@ describe('UserRepository', () => {
 
       expect(userRepository.findOne).toHaveBeenCalledWith(entityIdMockData);
       expect(userRepository.delete).not.toHaveBeenCalled();
-      expect(user).toEqual(undefined);
+      expect(user).toBe(null);
     });
   });
 });

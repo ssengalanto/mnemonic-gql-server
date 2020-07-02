@@ -1,6 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { authenticatedUserMockData } from '@shared/__mocks__';
+import {
+  authenticatedUserMockData,
+  successDeleteMockData,
+  entityIdMockData,
+} from '@shared/__mocks__';
 
 import { reminderMockData, createReminderInputMockData } from './__mocks__';
 import { ReminderRepository } from './reminder.repository';
@@ -24,6 +28,26 @@ describe('ReminderRepository', () => {
     expect(reminderRepository).toBeDefined();
   });
 
+  describe('findById', () => {
+    it('should find user by id', async () => {
+      jest.spyOn(reminderRepository, 'findOne').mockResolvedValue(reminderMockData);
+
+      const reminder = await reminderRepository.findById(entityIdMockData);
+
+      expect(reminderRepository.findOne).toHaveBeenCalledWith(entityIdMockData);
+      expect(reminder).toEqual(reminderMockData);
+    });
+
+    it('should return null when reminder does not exists', async () => {
+      jest.spyOn(reminderRepository, 'findOne').mockResolvedValue(undefined);
+
+      const reminder = await reminderRepository.findById(entityIdMockData);
+
+      expect(reminderRepository.findOne).toHaveBeenCalledWith(entityIdMockData);
+      expect(reminder).toBe(null);
+    });
+  });
+
   describe('createOne', () => {
     it('should create a new reminder successfully', async () => {
       jest.spyOn(reminderRepository, 'create').mockReturnValue(reminderMockData);
@@ -40,6 +64,40 @@ describe('ReminderRepository', () => {
       });
       expect(reminderRepository.save).toHaveBeenCalledWith(reminder);
       expect(reminder).toEqual(reminderMockData);
+    });
+  });
+
+  describe('deleteOne', () => {
+    it('should return the deleted reminder', async () => {
+      jest.spyOn(reminderRepository, 'findOne').mockResolvedValue(reminderMockData);
+      jest.spyOn(reminderRepository, 'delete').mockResolvedValue(successDeleteMockData);
+
+      const reminder = await reminderRepository.deleteOne(
+        entityIdMockData,
+        authenticatedUserMockData.id,
+      );
+
+      expect(reminderRepository.findOne).toHaveBeenCalledWith(entityIdMockData, {
+        where: { userId: authenticatedUserMockData.id },
+      });
+      expect(reminderRepository.delete).toHaveBeenCalledWith(entityIdMockData);
+      expect(reminder).toEqual(reminderMockData);
+    });
+
+    it('should return null when delete fails', async () => {
+      jest.spyOn(reminderRepository, 'findOne').mockResolvedValue(undefined);
+      jest.spyOn(reminderRepository, 'delete').mockImplementation();
+
+      const reminder = await reminderRepository.deleteOne(
+        entityIdMockData,
+        authenticatedUserMockData.id,
+      );
+
+      expect(reminderRepository.findOne).toHaveBeenCalledWith(entityIdMockData, {
+        where: { userId: authenticatedUserMockData.id },
+      });
+      expect(reminderRepository.delete).not.toHaveBeenCalled();
+      expect(reminder).toBe(null);
     });
   });
 });
