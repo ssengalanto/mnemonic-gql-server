@@ -35,8 +35,8 @@ export class UserResolver {
     return this.userService.findAll();
   }
 
-  @ResolveField(() => [ReminderType])
-  reminders(@Parent() user: User): Promise<Reminder[]> {
-    return this.reminderService.findReminderByUserId(user.id);
+  @ResolveField(() => [ReminderType], { name: 'reminders' })
+  getReminders(@Parent() user: User): Promise<Reminder[]> {
+    return this.reminderService.findUserReminders(user.id);
   }
 }

@@ -84,10 +84,10 @@ describe('ReminderService', () => {
     });
   });
 
-  describe('findReminderByUserId', () => {
+  describe('findUserReminders', () => {
     it('it should find all reminder of the user with the provided userId', async () => {
       jest.spyOn(reminderRepository, 'find').mockResolvedValue(remindersMockData);
-      const reminders = await reminderService.findReminderByUserId(entityIdMockData);
+      const reminders = await reminderService.findUserReminders(entityIdMockData);
       expect(reminderRepository.find).toHaveBeenCalledWith({
         where: { userId: entityIdMockData },
       });

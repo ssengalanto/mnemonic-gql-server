@@ -41,8 +41,8 @@ export class ReminderResolver {
     return this.reminderService.create(payload, user);
   }
 
-  @ResolveField(() => UserType)
-  user(
+  @ResolveField(() => UserType, { name: 'user' })
+  getUser(
     @Parent() reminder: Reminder,
     @Loader(UserLoader.name) userLoader: DataLoader<Reminder['userId'], User>,
   ): Promise<User | null> {
