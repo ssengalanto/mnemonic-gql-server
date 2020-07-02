@@ -1,12 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { Query, Args } from '@nestjs/graphql';
+import { Query, Args, Resolver } from '@nestjs/graphql';
 
 import { User } from '@shared/typeorm/entities';
 
 import { UserType } from './types';
 import { UserService } from './user.service';
 
-@Injectable()
+@Resolver()
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
