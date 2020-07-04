@@ -4,11 +4,11 @@ import { entityIdMockData } from '@shared/__mocks__';
 import { remindersMockData } from '@modules/reminder/__mocks__';
 import { ReminderService } from '@modules/reminder/reminder.service';
 
-import { UserResolver } from './user.resolver';
-import { UserService } from './user.service';
-import { userMockData, usersMockData } from './__mocks__';
+import { UserResolver } from '../user.resolver';
+import { UserService } from '../user.service';
+import { userMockData, usersMockData } from '../__mocks__';
 
-jest.mock('./user.service.ts');
+jest.mock('../user.service.ts');
 jest.mock('@modules/reminder/reminder.service.ts');
 
 describe('UserResolver', () => {

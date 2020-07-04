@@ -3,11 +3,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { userMockData, createUserInputMockData } from '@modules/user/__mocks__';
 import { appContextMockData } from '@shared/__mocks__';
 
-import { AuthResolver } from './auth.resolver';
-import { AuthService } from './auth.service';
-import { signinInputMockData, jwtMockToken } from './__mocks__';
+import { AuthResolver } from '../auth.resolver';
+import { AuthService } from '../auth.service';
+import { signinInputMockData, jwtMockToken } from '../__mocks__';
 
-jest.mock('./auth.service.ts');
+jest.mock('../auth.service.ts');
 
 describe('AuthResolver', () => {
   let authResolver: AuthResolver;

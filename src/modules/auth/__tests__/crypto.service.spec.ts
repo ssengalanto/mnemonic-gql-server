@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 
 import { Constant } from '@shared/enums';
 
-import { CryptoService } from './crypto.service';
+import { CryptoService } from '../crypto.service';
 
 jest.mock('bcrypt');
 
