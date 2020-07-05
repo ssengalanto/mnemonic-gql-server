@@ -2,11 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { entityIdMockData, authenticatedUserMockData } from '@shared/__mocks__';
 
-import { ReminderResolver } from '../reminder.resolver';
-import { ReminderService } from '../reminder.service';
-import { reminderMockData, createReminderInputMockData, remindersMockData } from '../__mocks__';
+import { ReminderResolver } from './reminder.resolver';
+import { ReminderService } from './reminder.service';
+import { reminderMockData, createReminderInputMockData, remindersMockData } from './__mocks__';
 
-jest.mock('../reminder.service.ts');
+jest.mock('./reminder.service.ts');
 
 describe('ReminderResolver', () => {
   let reminderResolver: ReminderResolver;

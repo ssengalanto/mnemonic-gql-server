@@ -2,11 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { entityIdMockData, entityIdsMockData } from '@shared/__mocks__';
 
-import { userMockData, usersMockData, updateUserInputMockData } from '../__mocks__';
-import { UserService } from '../user.service';
-import { UserRepository } from '../user.repository';
+import { userMockData, usersMockData, updateUserInputMockData } from './__mocks__';
+import { UserService } from './user.service';
+import { UserRepository } from './user.repository';
 
-jest.mock('../user.repository.ts');
+jest.mock('./user.repository.ts');
 
 describe('UserService', () => {
   let userService: UserService;

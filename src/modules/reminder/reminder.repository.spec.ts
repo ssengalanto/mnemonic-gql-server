@@ -12,8 +12,8 @@ import {
   reminderMockData,
   createReminderInputMockData,
   updateReminderInputMockData,
-} from '../__mocks__';
-import { ReminderRepository } from '../reminder.repository';
+} from './__mocks__';
+import { ReminderRepository } from './reminder.repository';
 
 describe('ReminderRepository', () => {
   let reminderRepository: ReminderRepository;

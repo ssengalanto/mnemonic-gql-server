@@ -9,12 +9,12 @@ import { CreateUserInput } from '@modules/user/inputs';
 import { UserRepository } from '@modules/user/user.repository';
 import { userMockData, createUserInputMockData } from '@modules/user/__mocks__';
 
-import { AuthService } from '../auth.service';
-import { CryptoService } from '../crypto.service';
-import { jwtMockToken, signinInputMockData, jwtPayloadMockData } from '../__mocks__';
-import { JwtPayload } from '../interfaces';
+import { AuthService } from './auth.service';
+import { CryptoService } from './crypto.service';
+import { jwtMockToken, signinInputMockData, jwtPayloadMockData } from './__mocks__';
+import { JwtPayload } from './interfaces';
 
-jest.mock('../crypto.service');
+jest.mock('./crypto.service');
 jest.mock('@modules/user/user.repository.ts');
 
 const mockJwtService = (): Partial<JwtService> => ({
