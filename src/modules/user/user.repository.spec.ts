@@ -8,8 +8,8 @@ import {
   successDeleteMockData,
 } from '@shared/__mocks__';
 
-import { UserRepository } from '../user.repository';
-import { userMockData, createUserInputMockData, updateUserInputMockData } from '../__mocks__';
+import { UserRepository } from './user.repository';
+import { userMockData, createUserInputMockData, updateUserInputMockData } from './__mocks__';
 
 describe('UserRepository', () => {
   let userRepository: UserRepository;
