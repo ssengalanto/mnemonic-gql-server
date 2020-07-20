@@ -64,8 +64,18 @@ describe('AuthService', () => {
       const hashed = 'hashed-string';
       jest.spyOn(cryptoService, 'hash').mockResolvedValue(hashed);
       jest.spyOn(userRepository, 'createOne').mockResolvedValue(userMockData);
+      jest.spyOn(authService, 'createAccessToken').mockReturnValue(jwtMockToken);
+      jest.spyOn(authService, 'createRefreshToken').mockReturnValue(jwtMockToken);
+      jest.spyOn(appContextMockData.res, 'cookie').mockImplementation();
 
-      const user = await authService.signup(createUserInputMockData);
+      const accessToken = await authService.signup(createUserInputMockData, appContextMockData.res);
+
+      const jwtPayload = {
+        sub: userMockData.id,
+        email: userMockData.email,
+        first_name: userMockData.first_name,
+        last_name: userMockData.last_name,
+      };
 
       expect(cryptoService.hash).toHaveBeenCalledWith(
         createUserInputMockData.password,
@@ -79,7 +89,15 @@ describe('AuthService', () => {
         active: true,
       } as CreateUserInput);
 
-      expect(user).toEqual(userMockData);
+      expect(authService.createAccessToken).toHaveBeenCalledWith(jwtPayload);
+      expect(authService.createRefreshToken).toHaveBeenCalledWith(jwtPayload);
+      expect(appContextMockData.res.cookie).toHaveBeenCalledWith(
+        Cookie.REFRESH_TOKEN,
+        jwtMockToken,
+        COOKIE_OPTIONS,
+      );
+
+      expect(accessToken).toEqual(jwtMockToken);
     });
   });
 
