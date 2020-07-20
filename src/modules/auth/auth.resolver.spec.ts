@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { userMockData, createUserInputMockData } from '@modules/user/__mocks__';
+import { createUserInputMockData } from '@modules/user/__mocks__';
 import { appContextMockData } from '@shared/__mocks__';
 
 import { AuthResolver } from './auth.resolver';
@@ -33,10 +33,13 @@ describe('AuthResolver', () => {
 
   describe('signup', () => {
     it('should create a new user', async () => {
-      jest.spyOn(authService, 'signup').mockResolvedValue(userMockData);
-      const user = await authResolver.signup(createUserInputMockData);
-      expect(authService.signup).toHaveBeenCalledWith(createUserInputMockData);
-      expect(user).toEqual(userMockData);
+      jest.spyOn(authService, 'signup').mockResolvedValue(jwtMockToken);
+      const accessToken = await authResolver.signup(createUserInputMockData, appContextMockData);
+      expect(authService.signup).toHaveBeenCalledWith(
+        createUserInputMockData,
+        appContextMockData.res,
+      );
+      expect(accessToken).toEqual(jwtMockToken);
     });
   });
 

@@ -21,13 +21,26 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async signup(payload: CreateUserInput): Promise<User> {
+  async signup(payload: CreateUserInput, res: Response): Promise<string> {
     const { password } = payload;
 
     const hashedPassword = await this.cryptoService.hash(password, Constant.SALT);
 
     const user = await this.userRepository.createOne({ ...payload, password: hashedPassword });
-    return user;
+
+    const jwtPayload = {
+      sub: user.id,
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+    };
+
+    const accessToken = this.createAccessToken(jwtPayload);
+    const refreshToken = this.createRefreshToken(jwtPayload);
+
+    res.cookie(Cookie.REFRESH_TOKEN, refreshToken, COOKIE_OPTIONS);
+
+    return accessToken;
   }
 
   async signin(payload: SigninUserInput, res: Response): Promise<string> {
