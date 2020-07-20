@@ -1,7 +1,5 @@
 import { Resolver, Mutation, Args, Context } from '@nestjs/graphql';
 
-import { User } from '@shared/typeorm/entities';
-import { UserType } from '@modules/user/types';
 import { CreateUserInput } from '@modules/user/inputs';
 import { AppContext } from '@shared/interfaces';
 
@@ -12,9 +10,12 @@ import { SigninUserInput } from './inputs';
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation(() => UserType)
-  signup(@Args('payload') payload: CreateUserInput): Promise<User> {
-    return this.authService.signup(payload);
+  @Mutation(() => String)
+  signup(
+    @Args('payload') payload: CreateUserInput,
+    @Context() { res }: AppContext,
+  ): Promise<string> {
+    return this.authService.signup(payload, res);
   }
 
   @Mutation(() => String)

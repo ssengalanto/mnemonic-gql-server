@@ -42,7 +42,7 @@ type Query {
 type Mutation {
   deleteReminder(id: String!): Reminder
   createReminder(payload: CreateReminderInput!): Reminder!
-  signup(payload: CreateUserInput!): User!
+  signup(payload: CreateUserInput!): String!
   signin(payload: SigninUserInput!): String!
 }
 
