@@ -51,4 +51,13 @@ describe('AuthResolver', () => {
       expect(accessToken).toEqual(jwtMockToken);
     });
   });
+
+  describe('silentRefresh', () => {
+    it('should automatically authenticate a user when refresh token is valid', async () => {
+      jest.spyOn(authService, 'silentRefresh').mockResolvedValue(jwtMockToken);
+      const accessToken = await authResolver.silentRefresh(jwtMockToken, appContextMockData);
+      expect(authService.silentRefresh).toHaveBeenCalledWith(jwtMockToken, appContextMockData.res);
+      expect(accessToken).toEqual(jwtMockToken);
+    });
+  });
 });

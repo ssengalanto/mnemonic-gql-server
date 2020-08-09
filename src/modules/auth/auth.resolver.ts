@@ -25,4 +25,12 @@ export class AuthResolver {
   ): Promise<string> {
     return this.authService.signin(payload, res);
   }
+
+  @Mutation(() => String)
+  silentRefresh(
+    @Args('token') token: string,
+    @Context() { res }: AppContext,
+  ): Promise<string | null> {
+    return this.authService.silentRefresh(token, res);
+  }
 }

@@ -139,10 +139,54 @@ describe('AuthService', () => {
     });
   });
 
+  describe('silentRefresh', () => {
+    it('should authenticate automatically when the user has a valid refresh token', async () => {
+      jest.spyOn(authService, 'validateTokenExpiry').mockReturnValue(true);
+      jest.spyOn(authService, 'validateRefreshToken').mockResolvedValue(userMockData);
+      jest.spyOn(authService, 'createJwtPayload').mockReturnValue(jwtPayloadMockData);
+      jest.spyOn(authService, 'createAccessToken').mockReturnValue(jwtMockToken);
+      jest.spyOn(authService, 'createRefreshToken').mockReturnValue(jwtMockToken);
+      jest.spyOn(appContextMockData.res, 'cookie').mockImplementation();
+
+      const accessToken = await authService.silentRefresh(jwtMockToken, appContextMockData.res);
+
+      expect(authService.validateTokenExpiry).toHaveBeenCalledWith(jwtMockToken);
+      expect(authService.validateRefreshToken).toHaveBeenCalledWith(jwtMockToken);
+      expect(authService.createJwtPayload).toHaveBeenCalledWith(userMockData);
+      expect(authService.createAccessToken).toHaveBeenCalledWith(jwtPayloadMockData);
+      expect(authService.createRefreshToken).toHaveBeenCalledWith(jwtPayloadMockData);
+
+      expect(appContextMockData.res.cookie).toHaveBeenCalledWith(
+        Cookie.REFRESH_TOKEN,
+        jwtMockToken,
+        COOKIE_OPTIONS,
+      );
+      expect(accessToken).toEqual(jwtMockToken);
+    });
+
+    it('should return null when refresh token is expired', async () => {
+      jest.spyOn(authService, 'validateTokenExpiry').mockReturnValue(false);
+
+      const accessToken = await authService.silentRefresh(jwtMockToken, appContextMockData.res);
+
+      expect(accessToken).toBe(null);
+    });
+
+    it('should return null when refresh token is invalid', async () => {
+      jest.spyOn(authService, 'validateTokenExpiry').mockReturnValue(true);
+      jest.spyOn(authService, 'validateRefreshToken').mockResolvedValue(null);
+
+      const accessToken = await authService.silentRefresh(jwtMockToken, appContextMockData.res);
+
+      expect(accessToken).toBe(null);
+    });
+  });
+
   describe('validateUser', () => {
     it('should validate a user', async () => {
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(userMockData);
       jest.spyOn(cryptoService, 'verify').mockResolvedValue(true);
+      jest.spyOn(authService, 'createJwtPayload').mockReturnValue(jwtPayloadMockData);
 
       const jwtPayload = await authService.validateUser(signinInputMockData);
 
@@ -155,12 +199,9 @@ describe('AuthService', () => {
         userMockData.password,
       );
 
-      expect(jwtPayload).toEqual({
-        sub: userMockData.id,
-        email: userMockData.email,
-        first_name: userMockData.first_name,
-        last_name: userMockData.last_name,
-      } as JwtPayload);
+      expect(authService.createJwtPayload).toHaveBeenCalledWith(userMockData);
+
+      expect(jwtPayload).toEqual(jwtPayloadMockData);
     });
 
     it('should return null when user does not exists', async () => {
@@ -215,6 +256,21 @@ describe('AuthService', () => {
       });
       expect(configService.get).toHaveBeenCalledWith('REFRESH_JWT_EXPIRES_IN');
       expect(token).toEqual(jwtMockToken);
+    });
+  });
+
+  describe('createJwtPayload', () => {
+    it('should create jwt payload', async () => {
+      const jwtPayload = await authService.createJwtPayload(userMockData);
+
+      const mockPayload: JwtPayload = {
+        sub: userMockData.id,
+        email: userMockData.email,
+        first_name: userMockData.first_name,
+        last_name: userMockData.last_name,
+      };
+
+      expect(jwtPayload).toEqual(mockPayload);
     });
   });
 

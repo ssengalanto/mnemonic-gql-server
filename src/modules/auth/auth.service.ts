@@ -56,6 +56,24 @@ export class AuthService {
     return accessToken;
   }
 
+  async silentRefresh(token: string, res: Response): Promise<string | null> {
+    const isValid = this.validateTokenExpiry(token);
+
+    if (!isValid) return null;
+
+    const user = await this.validateRefreshToken(token);
+
+    if (!user) return null;
+
+    const jwtPayload = this.createJwtPayload(user);
+    const accessToken = this.createAccessToken(jwtPayload);
+    const refreshToken = this.createRefreshToken(jwtPayload);
+
+    res.cookie(Cookie.REFRESH_TOKEN, refreshToken, COOKIE_OPTIONS);
+
+    return accessToken;
+  }
+
   async validateRefreshToken(token: string): Promise<User | null> {
     const { sub } = this.jwtService.verify(token);
 
@@ -86,6 +104,17 @@ export class AuthService {
     return true;
   }
 
+  createJwtPayload(user: User): JwtPayload {
+    const jwtPayload: JwtPayload = {
+      sub: user.id,
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+    };
+
+    return jwtPayload;
+  }
+
   async validateUser(payload: SigninUserInput): Promise<JwtPayload | null> {
     const { email, password } = payload;
     const user = await this.userRepository.findOne({ where: { email } });
@@ -96,11 +125,6 @@ export class AuthService {
 
     if (!isPasswordValid) return null;
 
-    return {
-      sub: user.id,
-      email: user.email,
-      first_name: user.first_name,
-      last_name: user.last_name,
-    } as JwtPayload;
+    return this.createJwtPayload(user);
   }
 }
